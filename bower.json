@@ -3,6 +3,6 @@
   "version": "0.9.0",
   "dependencies": {
     "angular": "1.0.x",
-    "angular-http-auth": "git@github.com:qloo/angular-http-auth.git",
+    "angular-http-auth": "git@github.com:qloo/angular-http-auth.git"
   }
 }
