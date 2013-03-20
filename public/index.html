@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="authtest">
 <head>
   <meta charset="utf-8">
   <title>angular-authentication</title>
 </head>
 <body>
-  <div>test</div>
+  <div ng-controller="signin">
+    <section>
+      <header>
+        <h2>Principal Information</h2>
+      </header>
+      <ul>
+        <li>Authenticated: {{user.isAuthenticated()}}
+        <li>Username: {{user.identity().name()}}
+        <li>ID: {{user.identity().id()}}
+      </ul>
+    </section>
+    <section>
+      <fieldset>
+        <legend>Sign In</legend>
+        <ul>
+          <li><label for="username">Username:</label> <input type="text" id="username" name="username">
+          <li><label for="password">Password:</label> <input type="password" id="password" name="password">
+          <li ng-hide="user.isAuthenticated()"><button ng-click="signinClick()">Sign In</button>
+          <li ng-show="user.isAuthenticated()"><button ng-click="signoutClick()">Sign Out</button>
+      </fieldset>
+    </section>
+  </div>
+
+  <script src="components/angular/angular.js"></script>
+  <script src="components/angular-http-auth/src/angular-http-auth.js"></script>
+  <script src="components/angular-authentication/angular-authentication.js"></script>
+  <script src="index.js"></script>
 </body>
 </html>

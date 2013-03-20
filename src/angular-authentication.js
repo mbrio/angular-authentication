@@ -27,7 +27,7 @@
     // Provides the interface for conversing with the authentication API and
     // generating a principal from the authenticated entity's information.
     mod = angular.module('authentication',
-      ['ngResource', 'qloo', 'http-auth-interceptor'])
+      ['http-auth-interceptor'])
 
       .value('version', '1.0.0')
 
