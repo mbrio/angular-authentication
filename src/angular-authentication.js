@@ -46,10 +46,6 @@
       // The `authority` service provides a means of authenticating a user by
       // communicating with an authentication web service.
       .provider('authority', function () {
-
-        // The URL for authorization
-        this.apiUrl = '/auth';
-
         // An object that describes how the keys from the result set are to be
         // translated into the identity object. The key of this object is the
         // key that is returned from the `authorize` method's data; the value of
@@ -87,10 +83,9 @@
           id: 'id'
         };
 
-        this.$get = ['$http', '$rootScope', 'authService',
-          function ($http, $rootScope, authService) {
-            var apiUrl = this.apiUrl,
-              idKeys = this.apiIdentityKeys;
+        this.$get = ['$rootScope', 'authService',
+          function ($rootScope, authService) {
+            var idKeys = this.apiIdentityKeys;
 
             return {
               // `authorize` communicates with the authentication api, on
@@ -98,58 +93,45 @@
               // logged in and then broadcasts the `authority-authorized` event.
               // If the credentials were incorrect then the event
               // `authority-authorization-failed` is broadcast instead.
-              authorize: function (credentials) {
-                $http
-                  .post(apiUrl, credentials)
-                  .success(function (data) {
-                    var key, propertyFn;
-                    _authenticated = true;
+              authorize: function (data) {
+                var key, propertyFn;
+                _authenticated = true;
 
-                    // Use a method to apply values to ensure the correct
-                    // information is returned
-                    propertyFn = function (k) {
-                      var value = idKeys[k],
-                        retval = data[k],
-                        ident = {};
+                // Use a method to apply values to ensure the correct
+                // information is returned
+                propertyFn = function (k) {
+                  var value = idKeys[k],
+                    retval = data[k],
+                    ident = {};
 
-                      _identity[value] = function () { return retval; };
-                    };
+                  _identity[value] = function () { return retval; };
+                };
 
-                    for (key in idKeys) {
-                      if (idKeys.hasOwnProperty(key) && data.hasOwnProperty(key)) {
-                        propertyFn(key);
-                      }
-                    }
+                for (key in idKeys) {
+                  if (idKeys.hasOwnProperty(key) && data.hasOwnProperty(key)) {
+                    propertyFn(key);
+                  }
+                }
 
-                    // `authService` we have lift off...
-                    authService.loginConfirmed();
-                    $rootScope.$broadcast('event:authority-authorized');
-                  })
-                  .error(function () {
-                    $rootScope.$broadcast('event:authority-authorization-failed');
-                  });
+                // `authService` we have lift off...
+                authService.loginConfirmed();
+                $rootScope.$broadcast('event:authority-authorized');
               },
 
-              // `deauthorize` communicates with the authentication api, signs off
-              // the user
+              // `deauthorize` signs off the principal
               deauthorize: function () {
-                // Bad, unforunately AngularJS uses a reserved word as a method name
-                // and breaks the linter, therefore we have to call it as a key.
-                $http['delete'](apiUrl)
-                  .success(function () {
-                    var key, value;
-                    _authenticated = false;
+                var key, value;
+                _authenticated = false;
 
-                    // Delete all the properties of `_identity` to create a
-                    // clean slate.
-                    for (key in idKeys) {
-                      if (idKeys.hasOwnProperty(key) && _identity.hasOwnProperty(value)) {
-                        delete _identity[value];
-                      }
-                    }
+                // Delete all the properties of `_identity` to create a
+                // clean slate.
+                for (key in idKeys) {
+                  if (idKeys.hasOwnProperty(key) && _identity.hasOwnProperty(value)) {
+                    delete _identity[value];
+                  }
+                }
 
-                    $rootScope.$broadcast('event:authority-deauthorized');
-                  });
+                $rootScope.$broadcast('event:authority-deauthorized');
               }
             };
           }];
