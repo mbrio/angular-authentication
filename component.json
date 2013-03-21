@@ -1,16 +1,13 @@
 {
   "name": "angular-authentication",
-  "version": "0.9.0",
-  "main": "./src/authentication.js",
+  "version": "1.0.0",
+  "main": "./js/angular-authentication.js",
   "ignore": [
-    "**/.*",
     "node_modules",
-    "components"
+    "components",
+    "example"
   ],
-  "dependencies": {
-    "angular": "~1.0.5",
-    "angular-http-auth": "git@github.com:qloo/angular-http-auth.git"
-  },
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/qloo/angular-authentication.git"

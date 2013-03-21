@@ -50,8 +50,8 @@
         });
       }])
 
-    .controller('signin', ['$http', '$rootScope', '$scope', 'principal', 'authority',
-      function ($http, $rootScope, $scope, principal, authority) {
+    .controller('signin', ['$http', '$rootScope', '$scope', 'principal', 'authority', 'authService',
+      function ($http, $rootScope, $scope, principal, authority, authService) {
         $scope.user = principal;
 
         $scope.username = '';
@@ -72,6 +72,7 @@
           $http
             .post(apiAuthUrl, body)
             .success(function (data) {
+              authService.loginConfirmed();
               authority.authorize(data);
               $scope.username = '';
               $scope.password = '';
