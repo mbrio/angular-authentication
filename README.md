@@ -41,6 +41,6 @@ You can then launch `example/index.html` in your browser.
 
 ## License
 
-Copyright (c) 2013 Qloo inc., Michael Diolosa <[michael.diolosa@gmail.com](michael.diolosa@gmail.com)>
+Copyright (c) 2013 Qloo inc., Michael Diolosa <[michael.diolosa@gmail.com](mailto:michael.diolosa@gmail.com)>
 
 The adn2do application is licensed under the [MIT license](http://opensource.org/licenses/MIT).
