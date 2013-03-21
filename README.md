@@ -8,7 +8,7 @@ This module provides a means for managing the authentication and identity of a u
 Stability: 2 - Unstable
 ```
 
-The stability index will reach 3 once the reliance on `angular-http-interceptor` is removed.
+*The stability index will reach 3 once the reliance on `angular-http-interceptor` is removed.*
 
 For more information you can view the Node.js [stability index](http://nodejs.org/api/all.html#all_stability_index).
 
@@ -41,8 +41,6 @@ You can then launch `example/index.html` in your browser.
 
 ## License
 
-License
----
 Copyright (c) 2013 Qloo inc., Michael Diolosa <[michael.diolosa@gmail.com](michael.diolosa@gmail.com)>
 
 The adn2do application is licensed under the [MIT license](http://opensource.org/licenses/MIT).
