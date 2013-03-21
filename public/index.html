@@ -11,26 +11,31 @@
         <h2>Principal Information</h2>
       </header>
       <ul>
-        <li>Authenticated: {{user.isAuthenticated()}}
-        <li>Username: {{user.identity().name()}}
-        <li>ID: {{user.identity().id()}}
+        <li>Authenticated: {{user.isAuthenticated()}}</li>
+        <li>Username: {{user.identity().name()}}</li>
+        <li>ID: {{user.identity().id()}}</li>
       </ul>
     </section>
-    <section>
+    <section ng-hide="user.isAuthenticated()">
       <fieldset>
         <legend>Sign In</legend>
+        <p ng-show="message">{{message}}</p>
         <ul>
-          <li><label for="username">Username:</label> <input type="text" id="username" name="username">
-          <li><label for="password">Password:</label> <input type="password" id="password" name="password">
-          <li ng-hide="user.isAuthenticated()"><button ng-click="signinClick()">Sign In</button>
-          <li ng-show="user.isAuthenticated()"><button ng-click="signoutClick()">Sign Out</button>
+          <li><label for="username">Username:</label> <input type="text" id="username" name="username" ng-model="username"></li>
+          <li><label for="password">Password:</label> <input type="password" id="password" name="password" ng-model="password"></li>
+          <li><button ng-click="signinButtonClick()">Sign In</button></li>
+        </ul>
       </fieldset>
+    </section>
+    <section ng-show="user.isAuthenticated()">
+      <button ng-click="signoutButtonClick()">Sign Out</button>
     </section>
   </div>
 
-  <script src="components/angular/angular.js"></script>
-  <script src="components/angular-http-auth/src/angular-http-auth.js"></script>
-  <script src="components/angular-authentication/angular-authentication.js"></script>
+  <script src="../components/angular/angular.js"></script>
+  <script src="../components/angular-http-auth/src/angular-http-auth.js"></script>
+  <script src="../components/angular-mocks/angular-mocks.js"></script>
+  <script src="../src/angular-authentication.js"></script>
   <script src="index.js"></script>
 </body>
 </html>

@@ -9,7 +9,7 @@
   ],
   "dependencies": {
     "angular": "x.x.x",
-    "angular-http-auth": "x.x.x"
+    "angular-http-auth": "git@github.com:qloo/angular-http-auth.git"
   },
   "repository": {
     "type": "git",
