@@ -2,7 +2,15 @@
 
 This module provides a means for managing the authentication and identity of a user in AngularJS.
 
-**The current implementation is in flux, but is nearly stable.**
+## Stability
+
+```
+Stability: 2 - Unstable
+```
+
+The stability index will reach 3 once the reliance on `angular-http-interceptor` is removed.
+
+For more information you can view the Node.js [stability index](http://nodejs.org/api/all.html#all_stability_index).
 
 ## TODO for V1
 
