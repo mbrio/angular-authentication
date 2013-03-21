@@ -1,8 +1,8 @@
 {
-  "name": "angular-authentication-server",
+  "name": "angular-authentication-example",
   "version": "0.9.0",
   "dependencies": {
-    "angular": "1.0.x",
+    "angular": "~1.0.5",
     "angular-http-auth": "git@github.com:qloo/angular-http-auth.git",
     "angular-mocks": "~1.0.5"
   }

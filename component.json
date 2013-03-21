@@ -8,7 +8,7 @@
     "components"
   ],
   "dependencies": {
-    "angular": "x.x.x",
+    "angular": "~1.0.5",
     "angular-http-auth": "git@github.com:qloo/angular-http-auth.git"
   },
   "repository": {
