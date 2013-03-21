@@ -7,7 +7,7 @@
 (function () {
   'use strict';
 
-  // Private variables for storing identity information.
+  // Private variable for storing identity information.
   var _identity = {},
 
     // Stores whether the user has been authenticated
