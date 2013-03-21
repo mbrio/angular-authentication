@@ -44,12 +44,9 @@
     // Configure my authority provider with a URL handler
     .config(['authServiceProvider', 'authorityProvider',
       function (authServiceProvider, authorityProvider) {
-        authServiceProvider.addUrlHandler(function (response, deferred) {
-          var canHandle = response.config.method === 'POST' &&
-            response.config.url === apiAuthUrl;
-
-          if (canHandle) { deferred.reject(response); }
-          return canHandle;
+        authServiceProvider.whenPOST(apiAuthUrl, function (response, deferred) {
+          deferred.reject(response);
+          return true;
         });
       }])
 
