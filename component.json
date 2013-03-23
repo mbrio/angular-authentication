@@ -5,7 +5,9 @@
   "ignore": [
     "node_modules",
     "components",
-    "example"
+    "config",
+    "example",
+    "test"
   ],
   "dependencies": {},
   "repository": {

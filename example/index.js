@@ -134,7 +134,7 @@
 
           // DELETE to the auth API
           $http
-            .delete(apiAuthUrl)
+            ['delete'](apiAuthUrl)
             .success(function () {
               // Tell the authority that the user has been deauthorized.
               authority.deauthorize();

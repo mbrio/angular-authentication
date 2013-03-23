@@ -122,6 +122,7 @@
 
                 // Delete all the properties of `_identity` for a clean slate.
                 for (key in idKeys) {
+                  value = idKeys[key];
                   if (idKeys.hasOwnProperty(key) && _identity.hasOwnProperty(value)) {
                     delete _identity[value];
                   }

@@ -4,11 +4,52 @@ exports = module.exports = function (grunt) {
 
   var config = grunt.initConfig({
     clean: {
-      files: ['docs/', 'exmaple/components']
+      files: ['docs/', 'example/components', 'node_modules']
+    },
+    karma: {
+      unit: {
+        configFile: 'config/karma.conf.js'
+      },
+      e2e: {
+        configFile: 'config/karma-e2e.conf.js'
+      }
+    },
+    server: {
+      testMode: false,
+      port: 3000
+    },
+    jshint: {
+      all: ['Gruntfile.js', 'server.js', 'js/*.js', 'test/**/*.js', 'config/*.js', 'example/*.js']
     }
   });
 
-  grunt.registerTask('default', ['doc', 'example']);
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+
+  grunt.registerTask('lint', ['jshint']);
+
+  grunt.registerTask('default', ['jshint', 'doc', 'bootstrap-example', 'test']);
+
+  grunt.registerTask('test', 'Run all unit tests', ['karma:unit']);
+
+  grunt.registerTask('test:e2e', 'Run all e2e tests', function () {
+    config.server.testMode = true;
+    config.karma.unit.configFile = 'config/karma-e2e.conf.js';
+    grunt.task.run('server');
+    grunt.task.run('karma:e2e');
+  });
+
+  grunt.registerTask('server', 'Run the example server', function () {
+    var server, done,
+      start = require('./server.js');
+
+    server = start(config.server.port);
+
+    if (!config.server.testMode) {
+      done = this.async();
+      server.on('close', done);
+    }
+  });
 
   // Generate documentation
   grunt.registerTask('doc', 'Generate documentation', function () {
@@ -28,7 +69,7 @@ exports = module.exports = function (grunt) {
   });
 
   // Bootstrap example
-  grunt.registerTask('example', 'Bootstrap example', function () {
+  grunt.registerTask('bootstrap-example', 'Bootstrap example', function () {
     var done = this.async();
 
     grunt.file.setBase('./example');
@@ -41,6 +82,8 @@ exports = module.exports = function (grunt) {
       grunt.log.ok('Bootstrapped ./example/');
       done();
     });
+
+    grunt.file.setBase('../');
 
     child.stdout.pipe(process.stdout);
     child.stderr.pipe(process.stderr);
@@ -59,7 +102,7 @@ exports = module.exports = function (grunt) {
 
     for (i = 0, j = files.length; i < j; i++) {
       grunt.log.ok('Deleting ', files[i]);
-      grunt.file.delete(files[i]);
+      grunt.file['delete'](files[i]);
     }
   });
 };
