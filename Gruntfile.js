@@ -12,6 +12,11 @@ exports = module.exports = function (grunt) {
       },
       e2e: {
         configFile: 'config/karma-e2e.conf.js'
+      },
+      check: {
+        configFile: 'config/karma.conf.js',
+        singleRun: true,
+        autoWatch: false
       }
     },
     server: {
@@ -31,6 +36,8 @@ exports = module.exports = function (grunt) {
   grunt.registerTask('default', ['jshint', 'doc', 'bootstrap-example', 'test']);
 
   grunt.registerTask('test', 'Run all unit tests', ['karma:unit']);
+
+  grunt.registerTask('check', 'Check to be sure JS is linted and app is tested', ['jshint', 'karma:check']);
 
   grunt.registerTask('test:e2e', 'Run all e2e tests', function () {
     config.server.testMode = true;

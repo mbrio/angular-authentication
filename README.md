@@ -13,10 +13,6 @@ Stability: 3 - Stable
 
 For more information you can view the Node.js [stability index](http://nodejs.org/api/all.html#all_stability_index).
 
-## TODO for V1.1
-
-- Add tests
-
 ## TODO for V1.5
 
 - dot notation for identityKeys
