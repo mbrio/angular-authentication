@@ -24,15 +24,75 @@ For more information you can view the Node.js [stability index](http://nodejs.or
 
 ## Build
 
-The library itself does not need to be built, but documentation generation and example configuration has been automated with grunt.
+To install all the necessary dependencies for the the example you'll need to run the following commands:
 
 ```
-$ npm install && grunt
+$ npm install -g grunt-cli && npm install && grunt bootstrap
 ```
 
-This will ensure that all of the necessary node modules are installed, documentation is built, and the example has been bootstrapped.
+If you have problems with [Grunt](http://gruntjs.com/) you may need to [uninstall a previously installed version](http://gruntjs.com/getting-started), you may also need to run the `grunt-cli` installation using `sudo`.
 
-Once this is done you may launch `example/index.html` in your browser.
+This will ensure that all of the necessary node and bower modules are installed, documentation is built, and the example has been bootstrapped.
+
+## Web Server for the Example Application
+
+You can run the test server with the following command:
+
+```
+$ grunt server
+```
+
+## Tests
+
+### Unit
+
+```
+grunt test:unit
+```
+
+### End to End
+
+```
+grunt test:e2e
+```
+
+### Continuous Integration
+
+```
+grunt test:continuous
+```
+
+## More Grunt Tasks
+
+To LINT the JS:
+
+```
+grunt lint
+```
+
+To run unit tests and LINT the JS
+
+```
+grunt check
+```
+
+Build documentation:
+
+```
+grunt doc
+```
+
+Cleanup:
+
+```
+grunt clean
+```
+
+Lint, documentation, bootstrap, and test:
+
+```
+grunt
+```
 
 ## License
 

@@ -33,6 +33,8 @@ exports = module.exports = function (grunt) {
 
   grunt.registerTask('lint', ['jshint']);
 
+  grunt.registerTask('bootstrap', ['doc', 'bootstrap-example']);
+
   grunt.registerTask('default', ['jshint', 'doc', 'bootstrap-example', 'test']);
 
   grunt.registerTask('test', 'Run all unit tests', ['karma:unit']);
