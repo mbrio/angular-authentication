@@ -12,12 +12,7 @@ exports = module.exports = function (grunt) {
       },
       e2e: {
         configFile: 'config/karma-e2e.conf.js'
-      }/*,
-      continuous: {
-        configFile: 'config/karma.conf.js',
-        singleRun: false,
-        autoWatch: true
-      }*/
+      }
     },
     server: {
       testMode: false,

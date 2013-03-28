@@ -44,6 +44,8 @@ $ grunt server
 
 ## Tests
 
+It is important that you have already run the `grunt bootstrap` task before testing.
+
 ```
 grunt test
 ```
