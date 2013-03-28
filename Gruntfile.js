@@ -67,7 +67,7 @@ exports = module.exports = function (grunt) {
     grunt.task.run('karma:e2e');
   });
 
-  grunt.registerTask('check', 'Check to be sure JS is linted and app is tested', ['jshint', 'karma:unit']);
+  grunt.registerTask('check', 'Check to be sure JS is linted and app is tested', ['jshint', 'test']);
 
   grunt.registerTask('server', 'Run the example server', function () {
     var server, done,
