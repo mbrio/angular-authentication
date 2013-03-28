@@ -6,6 +6,7 @@ basePath = '../';
 files = [
   JASMINE,
   JASMINE_ADAPTER,
+  'example/components/jquery/jquery.js',
   'example/components/angular/angular.js',
   'example/components/angular-http-auth/src/angular-http-auth.js',
   'example/components/angular-mocks/angular-mocks.js',
