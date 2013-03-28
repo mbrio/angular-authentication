@@ -20,11 +20,11 @@ reporters = ['progress'];
 
 
 // web server port
-port = 9876;
+port = 9877;
 
 
 // cli runner port
-runnerPort = 9100;
+runnerPort = 9101;
 
 
 // enable / disable colors in the output (reporters and logs)
@@ -44,7 +44,7 @@ logLevel = LOG_INFO;
 
 
 // enable / disable watching file and executing tests whenever any file changes
-autoWatch = true;
+autoWatch = false;
 
 
 // Start these browsers, currently available:
@@ -64,4 +64,4 @@ captureTimeout = 60000;
 
 // Continuous Integration mode
 // if true, it capture browsers, run tests and exit
-singleRun = false;
+singleRun = true;

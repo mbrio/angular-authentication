@@ -44,6 +44,10 @@ $ grunt server
 
 ## Tests
 
+```
+grunt test
+```
+
 ### Unit
 
 ```
@@ -56,10 +60,16 @@ grunt test:unit
 grunt test:e2e
 ```
 
-### Continuous Integration
+### Continuous Integration Unit
 
 ```
-grunt test:continuous
+grunt cont:unit
+```
+
+### Continuous Integration e2e
+
+```
+grunt cont:e2e
 ```
 
 ## More Grunt Tasks

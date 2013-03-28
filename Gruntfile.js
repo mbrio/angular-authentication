@@ -12,12 +12,12 @@ exports = module.exports = function (grunt) {
       },
       e2e: {
         configFile: 'config/karma-e2e.conf.js'
-      },
+      }/*,
       continuous: {
         configFile: 'config/karma.conf.js',
         singleRun: false,
         autoWatch: true
-      }
+      }*/
     },
     server: {
       testMode: false,
@@ -37,17 +37,37 @@ exports = module.exports = function (grunt) {
 
   grunt.registerTask('default', ['jshint', 'doc', 'bootstrap-example', 'test']);
 
-  grunt.registerTask('test', 'Run all unit tests', ['karma:unit']);
-  grunt.registerTask('test:continuous', 'Run all unit tests', ['karma:continuous']);
+  grunt.registerTask('test', 'Run all tests', ['test:unit', 'test:e2e']);
 
-  grunt.registerTask('check', 'Check to be sure JS is linted and app is tested', ['jshint', 'karma:unit']);
+  grunt.registerTask('test:unit', 'Runs all unit tests with PhantomJS', function () {
+    grunt.task.run('karma:unit');
+  });
 
-  grunt.registerTask('test:e2e', 'Run all e2e tests', function () {
+  grunt.registerTask('test:e2e', 'Runs all end to end tests with Chrome', function () {
     config.server.testMode = true;
-    config.karma.unit.configFile = 'config/karma-e2e.conf.js';
     grunt.task.run('server');
     grunt.task.run('karma:e2e');
   });
+
+  grunt.registerTask('cont', ['continuous:unit']);
+  grunt.registerTask('cont:unit', ['continuous:unit']);
+  grunt.registerTask('continuous', ['continuous:unit']);
+  grunt.registerTask('continuous:unit', 'Runs all unit tests continuously with PhantomJS', function () {
+    config.karma.unit.singleRun = false;
+    config.karma.unit.autoWatch = true;
+    grunt.task.run('karma:unit');
+  });
+
+  grunt.registerTask('cont:e2e', ['continuous:e2e']);
+  grunt.registerTask('continuous:e2e', 'Runs all end to end tests continuously with Chrome', function () {
+    config.karma.e2e.singleRun = false;
+    config.karma.e2e.autoWatch = true;
+    config.server.testMode = true;
+    grunt.task.run('server');
+    grunt.task.run('karma:e2e');
+  });
+
+  grunt.registerTask('check', 'Check to be sure JS is linted and app is tested', ['jshint', 'karma:unit']);
 
   grunt.registerTask('server', 'Run the example server', function () {
     var server, done,
