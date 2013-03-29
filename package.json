@@ -1,6 +1,6 @@
 {
   "name": "angular-authentication",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Authentication module for AngularJS",
   "main": "js/angular-authentication.js",
   "repository": {
