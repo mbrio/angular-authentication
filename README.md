@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/qloo/angular-authentication.png)](https://travis-ci.org/qloo/angular-authentication)
+
 # AngularJS Authentication Module
 
 Authentication module for AngularJS.  
