@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>angular-authentication.js</title>
+  <title>index.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -19,12 +19,12 @@
           <div id="jump_page">
             
               
-              <a class="source" href="example/index.html">
-                example/index.js
+              <a class="source" href="index.html">
+                index.js
               </a>
             
               
-              <a class="source" href="index.html">
+              <a class="source" href="angular-authentication.html">
                 angular-authentication.js
               </a>
             
@@ -36,7 +36,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>angular-authentication.js</h1>
+                  <h1>index.js</h1>
               </div>
           </li>
         
@@ -48,11 +48,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p>Authentication module for AngularJS<br>Copyright (C) 2013 Qloo Inc., Michael Diolosa <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x6d;&#105;&#x63;&#104;&#97;&#x65;&#108;&#46;&#100;&#105;&#111;&#x6c;&#x6f;&#115;&#97;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#109;">&#x6d;&#105;&#x63;&#104;&#97;&#x65;&#108;&#46;&#100;&#105;&#111;&#x6c;&#x6f;&#115;&#97;&#64;&#103;&#109;&#x61;&#105;&#x6c;&#x2e;&#x63;&#x6f;&#109;</a><br>License: MIT</p>
+              <p>Authentication module for AngularJS<br>Copyright (C) 2013 Qloo Inc., Michael Diolosa <a href="&#109;&#97;&#x69;&#x6c;&#116;&#x6f;&#58;&#x6d;&#x69;&#99;&#104;&#x61;&#x65;&#108;&#x2e;&#100;&#x69;&#x6f;&#108;&#111;&#x73;&#x61;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;">&#x6d;&#x69;&#99;&#104;&#x61;&#x65;&#108;&#x2e;&#100;&#x69;&#x6f;&#108;&#111;&#x73;&#x61;&#64;&#x67;&#x6d;&#x61;&#x69;&#x6c;&#x2e;&#x63;&#111;&#109;</a><br>License: MIT</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="comment">/*global angular:true, browser: true */</span>
+            <div class="content"><div class='highlight'><pre><span class="comment">/*global browser:true, angular:true */</span>
 
 (<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
   <span class="string">'use strict'</span>;</pre></div></div>
@@ -66,11 +66,17 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Private variable for storing identity information.</p>
+              <p>private variables for mock server</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> _identity = {},</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> apiAuthUrl = <span class="string">'api/auth'</span>,
+    _authenticated = <span class="literal">false</span>,
+    _username = <span class="literal">null</span>,
+    _id = <span class="literal">null</span>;
+
+  angular
+    .module(<span class="string">'authtest'</span>, [<span class="string">'http-auth-interceptor'</span>, <span class="string">'authentication'</span>, <span class="string">'ngMockE2E'</span>])</pre></div></div>
             
         </li>
         
@@ -78,14 +84,12 @@
         <li id="section-3">
             <div class="annotation">
               
-              <div class="pilwrap ">
+              <div class="pilwrap for-h2">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Stores whether the user has been authenticated</p>
+              <h2>Mock Server</h2>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    _authenticated = <span class="literal">false</span>,</pre></div></div>
             
         </li>
         
@@ -93,12 +97,15 @@
         <li id="section-4">
             <div class="annotation">
               
-              <div class="pilwrap for-h2">
+              <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <h2>authentication</h2>
+              <p>Mock the server responses, completely unneeded to use the code, it only
+returns dummy values so no real server is needed.</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>    .run([<span class="string">'$httpBackend'</span>, <span class="function"><span class="keyword">function</span> <span class="params">($httpBackend)</span> {</span></pre></div></div>
             
         </li>
         
@@ -109,12 +116,17 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>Provides the interface for conversing with the authentication API and
-generating a principal from the authenticated entity&#39;s information.</p>
+              <p>GET api/auth: Check to see if a user is logged in</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    mod = angular.module(<span class="string">'authentication'</span>, [])</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      $httpBackend.whenGET(apiAuthUrl).respond(<span class="function"><span class="keyword">function</span> <span class="params">(method, url, data)</span> {</span>
+        <span class="keyword">if</span> (_authenticated === <span class="literal">true</span>) {
+          <span class="keyword">return</span> [<span class="number">200</span>, {username: _username, id: _id}];
+        }
+
+        <span class="keyword">return</span> [<span class="number">401</span>];
+      });</pre></div></div>
             
         </li>
         
@@ -122,12 +134,26 @@ generating a principal from the authenticated entity&#39;s information.</p>
         <li id="section-6">
             <div class="annotation">
               
-              <div class="pilwrap for-h2">
+              <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <h2>Properties</h2>
+              <p>POST api/auth: Login a user</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>      $httpBackend.whenPOST(apiAuthUrl).respond(<span class="function"><span class="keyword">function</span> <span class="params">(method, url, data)</span> {</span>
+        data = angular.fromJson(data);
+
+        <span class="keyword">if</span> (data.username &amp;&amp; data.password) {
+          _authenticated = <span class="literal">true</span>;
+          _username = data.username;
+          _id = Math.round(Math.random() * <span class="number">1000</span> + <span class="number">1</span>);
+          <span class="keyword">return</span> [<span class="number">200</span>, {username: _username, id: _id, success: <span class="literal">true</span>}];
+        }
+
+        _authenticated = <span class="literal">false</span>;
+        <span class="keyword">return</span> [<span class="number">401</span>, {success: <span class="literal">false</span>}];
+      });</pre></div></div>
             
         </li>
         
@@ -138,11 +164,15 @@ generating a principal from the authenticated entity&#39;s information.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>Version</p>
+              <p>DELETE api/auth: Logout a user</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      .constant(<span class="string">'version'</span>, <span class="string">'1.0.1'</span>)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      $httpBackend.whenDELETE(apiAuthUrl).respond(<span class="function"><span class="keyword">function</span> <span class="params">(method, url, data)</span> {</span>
+        _authenticated = <span class="literal">false</span>;
+        <span class="keyword">return</span> [<span class="number">200</span>];
+      });
+    }])</pre></div></div>
             
         </li>
         
@@ -153,7 +183,7 @@ generating a principal from the authenticated entity&#39;s information.</p>
               <div class="pilwrap for-h2">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <h2>principal</h2>
+              <h2>Module Configuration</h2>
 
             </div>
             
@@ -166,20 +196,19 @@ generating a principal from the authenticated entity&#39;s information.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <p>The authenticated entity, it&#39;s identity object is dynamically
-generated when authentication is successful. It&#39;s properties are
-generated by looping through the data that was returned by the
-authentication API using the white list of property values that can
-be configured through <code>authServiceProvider.identityKeys</code>.</p>
+              <p>Configure the <code>authServiceProvider</code> with a URL handler that rejects
+the <code>deferred</code> when a user POSTs to api/auth. A POST to api/auth is the
+action for logging in a user.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      .factory(<span class="string">'principal'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-        <span class="keyword">return</span> {
-          identity: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span> <span class="keyword">return</span> _identity; },
-          isAuthenticated: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span> <span class="keyword">return</span> _authenticated; }
-        };
-      })</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    .config([<span class="string">'authServiceProvider'</span>,
+      <span class="function"><span class="keyword">function</span> <span class="params">(authServiceProvider)</span> {</span>
+        authServiceProvider.whenPOST(apiAuthUrl, <span class="function"><span class="keyword">function</span> <span class="params">(response, deferred)</span> {</span>
+          deferred.reject(response);
+          <span class="keyword">return</span> <span class="literal">true</span>;
+        });
+      }])</pre></div></div>
             
         </li>
         
@@ -190,7 +219,7 @@ be configured through <code>authServiceProvider.identityKeys</code>.</p>
               <div class="pilwrap for-h2">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <h2>authority</h2>
+              <h2>signin</h2>
 
             </div>
             
@@ -203,11 +232,17 @@ be configured through <code>authServiceProvider.identityKeys</code>.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <p>The <code>authority</code> provides a means for authentication</p>
+              <p>Sign in form controller.</p>
+<p>If you click the <code>sign in</code> button with no values in <code>username</code> or
+<code>password</code> the <code>signin-failed</code> event should be triggered.</p>
+<p>To see the state of the form with a user signed in type anything into
+both <code>username</code> and <code>password</code></p>
+<p>You can then click <code>sign out</code> to deauthorize the user again</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      .provider(<span class="string">'authority'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    .controller(<span class="string">'signin'</span>, [<span class="string">'$http'</span>, <span class="string">'$rootScope'</span>, <span class="string">'$scope'</span>, <span class="string">'principal'</span>, <span class="string">'authority'</span>, <span class="string">'authService'</span>,
+      <span class="function"><span class="keyword">function</span> <span class="params">($http, $rootScope, $scope, principal, authority, authService)</span> {</span></pre></div></div>
             
         </li>
         
@@ -218,39 +253,11 @@ be configured through <code>authServiceProvider.identityKeys</code>.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>An object that describes how the keys from the API&#39;s result are to be
-translated into the identity object. The key of this object is the
-key that is returned from the <code>authorize</code> method&#39;s data; the value of
-this key is the key that it will exist as on the object that&#39;s
-returned from <code>principal.identity()</code>.</p>
-<p>An easier way to explain this is through some code:</p>
-<p>We will assume that the authentication API returns a JSON object on
-success that contains the following value:</p>
-<pre><code>{
-  &quot;username&quot;: &quot;mbrio&quot;,
-  &quot;id:&quot;: 1001
-  &quot;date&quot;: 1363784671793
-}</code></pre>
-<p>With the default values set to identityKeys then the object
-returned from <code>principal.identity()</code> would be structured as:</p>
-<pre><code>{
-  name: function () { return &quot;mbrio&quot;; },
-  id: function () { return 1001; }
-}</code></pre>
-<p>Which then could be used in an angular template if set to a <code>$scope</code>
-property:</p>
-<pre><code>$scope.user = principal // In the controller
-
-{{user.identity().name}} // In the template</code></pre>
-<p>As you see the <code>username</code> property on the JSON data was interpolated
-to just <code>name</code>, <code>id</code> stayed the same, and <code>date</code> was ignored.</p>
+              <p>Store the principal for use in the template</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="keyword">this</span>.identityKeys = {
-          username: <span class="string">'name'</span>,
-          id: <span class="string">'id'</span>
-        };</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        $scope.user = principal;</pre></div></div>
             
         </li>
         
@@ -261,15 +268,12 @@ to just <code>name</code>, <code>id</code> stayed the same, and <code>date</code
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>Define the provider&#39;s instance</p>
+              <p>Models to store credentials</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="keyword">this</span>.$get = [<span class="string">'$rootScope'</span>,
-          <span class="function"><span class="keyword">function</span> <span class="params">($rootScope)</span> {</span>
-            <span class="keyword">var</span> idKeys = <span class="keyword">this</span>.identityKeys;
-
-            <span class="keyword">return</span> {</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        $scope.username = <span class="string">''</span>;
+        $scope.password = <span class="string">''</span>;</pre></div></div>
             
         </li>
         
@@ -280,16 +284,11 @@ to just <code>name</code>, <code>id</code> stayed the same, and <code>date</code
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
-              <p><code>authorize</code> is meant to be called from a controller once the
-user has been authenticated by an external API. It wires up the
-<code>principal.identity()</code> object and then broadcasts the
-<code>authority-authorized</code> event from the <code>$rootScope</code></p>
+              <p>Model to store error messages</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>              authorize: <span class="function"><span class="keyword">function</span> <span class="params">(data)</span> {</span>
-                <span class="keyword">var</span> key, propertyFn;
-                _authenticated = <span class="literal">true</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        $scope.message = <span class="literal">null</span>;</pre></div></div>
             
         </li>
         
@@ -300,24 +299,15 @@ user has been authenticated by an external API. It wires up the
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
-              <p>Fill our <code>principal.identity()</code> object with getter methods
-to protect the underlying values.</p>
+              <p>On startup this will fail since the user is not logged in,
+once logged in the console will log some messages</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>                propertyFn = <span class="function"><span class="keyword">function</span> <span class="params">(k)</span> {</span>
-                  <span class="keyword">var</span> value = idKeys[k],
-                    retval = data[k],
-                    ident = {};
-
-                  _identity[value] = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span> <span class="keyword">return</span> retval; };
-                };
-
-                <span class="keyword">for</span> (key <span class="keyword">in</span> idKeys) {
-                  <span class="keyword">if</span> (idKeys.hasOwnProperty(key) &amp;&amp; data.hasOwnProperty(key)) {
-                    propertyFn(key);
-                  }
-                }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        $http.get(apiAuthUrl).success(<span class="function"><span class="keyword">function</span> <span class="params">(data)</span> {</span>
+          console.log(<span class="string">'received user data: '</span>);
+          console.dir(data);
+        });</pre></div></div>
             
         </li>
         
@@ -328,12 +318,11 @@ to protect the underlying values.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>Broadcast the authorized event</p>
+              <p>Sign in button handler</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>                $rootScope.$broadcast(<span class="string">'event:authority-authorized'</span>);
-              },</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        $scope.signinButtonClick = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span></pre></div></div>
             
         </li>
         
@@ -344,13 +333,11 @@ to protect the underlying values.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
-              <p><code>deauthorize</code> resets the <code>principal</code> and <code>identity</code></p>
+              <p>Values to post to authentication service</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>              deauthorize: <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-                <span class="keyword">var</span> key, value;
-                _authenticated = <span class="literal">false</span>;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>          <span class="keyword">var</span> body = {username: $scope.username, password: $scope.password};</pre></div></div>
             
         </li>
         
@@ -361,16 +348,11 @@ to protect the underlying values.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <p>Delete all the properties of <code>_identity</code> for a clean slate.</p>
+              <p>Reset the error messages</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>                <span class="keyword">for</span> (key <span class="keyword">in</span> idKeys) {
-                  value = idKeys[key];
-                  <span class="keyword">if</span> (idKeys.hasOwnProperty(key) &amp;&amp; _identity.hasOwnProperty(value)) {
-                    <span class="keyword">delete</span> _identity[value];
-                  }
-                }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>          $scope.message = <span class="literal">null</span>;</pre></div></div>
             
         </li>
         
@@ -381,15 +363,193 @@ to protect the underlying values.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
-              <p>Broadcast the deauthorized event</p>
+              <p>POST values to the auth API</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>                $rootScope.$broadcast(<span class="string">'event:authority-deauthorized'</span>);
-              }
-            };
-          }];
-      });
+            <div class="content"><div class='highlight'><pre>          $http
+            .post(apiAuthUrl, body)
+            .success(<span class="function"><span class="keyword">function</span> <span class="params">(data)</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Tell authService that the user is logged in</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              authService.loginConfirmed();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Tell the authority that the user is authorized</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              authority.authorize(data);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Reset credential models</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              $scope.username = <span class="string">''</span>;
+              $scope.password = <span class="string">''</span>;
+            })</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>This error message should only occur if there were no user
+credentials supplied.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            .error(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+              $scope.message = <span class="string">'Incorrect credentials'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Broadcast an event stating that sigin failed</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              $rootScope.$broadcast(<span class="string">'event:signin-failed'</span>);
+            });
+        };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Sign out button handler</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $scope.signoutButtonClick = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Reset error messages</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $scope.message = <span class="string">''</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>DELETE to the auth API</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          $http
+            [<span class="string">'delete'</span>](apiAuthUrl)
+            .success(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Tell the authority that the user has been deauthorized.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              authority.deauthorize();
+            });
+        };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>These events are fired by the authService provider, they&#39;re pretty
+self explanatory</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        $scope.$on(<span class="string">'event:auth-loginRequired'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          console.log(<span class="string">'need login'</span>);
+        });
+
+        $scope.$on(<span class="string">'event:auth-loginConfirmed'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          console.log(<span class="string">'logged in'</span>);
+        });
+
+        $scope.$on(<span class="string">'event:signin-failed'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          console.log(<span class="string">'incorrect credentials'</span>);
+        });
+
+        $scope.$on(<span class="string">'event:authority-authorized'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          console.log(<span class="string">'authorized'</span>);
+        });
+
+        $scope.$on(<span class="string">'event:authority-deauthorized'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+          console.log(<span class="string">'deauthorized'</span>);
+        });
+      }]);
 }());</pre></div></div>
             
         </li>
