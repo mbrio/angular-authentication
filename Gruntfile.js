@@ -4,7 +4,7 @@ exports = module.exports = function (grunt) {
 
   var config = grunt.initConfig({
     clean: {
-      files: ['docs/', 'example/components', 'node_modules']
+      files: ['docs/', 'example/components', 'node_modules', 'coverage']
     },
     karma: {
       unit: {
