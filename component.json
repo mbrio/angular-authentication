@@ -4,6 +4,7 @@
   "main": "./js/angular-authentication.js",
   "ignore": [
     ".gitignore",
+    ".travis.yml",
     "package.json",
     "server.js",
     "Gruntfile.js",
