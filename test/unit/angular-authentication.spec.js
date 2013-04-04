@@ -5,7 +5,7 @@ describe('authentication', function() {
     beforeEach(module('authentication'));
 
     it('should return current version', inject(function(version) {
-      expect(version).toEqual('1.0.2');
+      expect(version).toEqual('1.0.4');
     }));
   });
 

@@ -22,7 +22,7 @@
       // Properties
       // ----------
       // Version
-      .constant('version', '1.0.2')
+      .constant('version', '1.0.4')
 
       // principal
       // ---------

@@ -14,6 +14,10 @@ files = [
   'test/unit/*.spec.js'
 ];
 
+preprocessors = {
+  'js/*.js': 'coverage'
+};
+
 
 // list of files to exclude
 exclude = [];
@@ -21,7 +25,7 @@ exclude = [];
 
 // test results reporter to use
 // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
-reporters = ['progress'];
+reporters = ['progress', 'coverage'];
 
 
 // web server port
