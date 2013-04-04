@@ -6,7 +6,6 @@ basePath = '../';
 files = [
   JASMINE,
   JASMINE_ADAPTER,
-  'example/components/jquery/jquery.js',
   'example/components/angular/angular.js',
   'example/components/angular-http-auth/src/angular-http-auth.js',
   'example/components/angular-mocks/angular-mocks.js',
@@ -26,14 +25,6 @@ exclude = [];
 // test results reporter to use
 // possible values: 'dots', 'progress', 'junit', 'growl', 'coverage'
 reporters = ['progress', 'coverage'];
-
-
-// web server port
-port = 9876;
-
-
-// cli runner port
-runnerPort = 9100;
 
 
 // enable / disable colors in the output (reporters and logs)
