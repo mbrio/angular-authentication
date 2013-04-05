@@ -14,7 +14,7 @@
     _authenticated = false;
 
   // authentication
-  // --------------
+  // ==============
   // Provides the interface for conversing with the authentication API and
   // generating a principal from the authenticated entity's information.
   angular.module('authentication', [])
