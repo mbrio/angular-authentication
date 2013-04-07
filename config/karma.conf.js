@@ -4,11 +4,12 @@ basePath = '../';
 
 // list of files / patterns to load in the browser
 files = [
-  JASMINE,
-  JASMINE_ADAPTER,
+  MOCHA,
+  MOCHA_ADAPTER,
+  'node_modules/chai/chai.js',
   'example/components/angular/angular.js',
   'example/components/angular-http-auth/src/angular-http-auth.js',
-  'example/components/angular-mocks/angular-mocks.js',
+  'example/components/angular-mocks/src/ngMock/angular-mocks.js',
   'js/angular-authentication.js',
   'test/unit/*.spec.js'
 ];
