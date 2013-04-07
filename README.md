@@ -3,7 +3,8 @@
 # AngularJS Authentication Module
 
 Authentication module for AngularJS.  
-http://qloo.github.io/angular-authentication/
+http://qloo.github.io/angular-authentication  
+https://github.com/qloo/angular-authentication
 
 ## Stability
 
