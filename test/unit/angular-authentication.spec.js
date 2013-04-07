@@ -1,3 +1,6 @@
+/* jshint -W024 */
+/* jshint expr:true */
+
 var expect = chai.expect;
 
 describe('authentication', function() {
