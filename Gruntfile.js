@@ -28,6 +28,11 @@ exports = module.exports = function (grunt) {
     },
     jshint: {
       all: ['Gruntfile.js', 'server.js', 'js/*.js', 'test/**/*.js', 'config/*.js', 'example/*.js']
+    },
+    docs: {
+      all: {
+        src: ['README.md', 'js/angular-authentication.js']
+      }
     }
   });
 
@@ -86,13 +91,13 @@ exports = module.exports = function (grunt) {
   });
 
   // Generate documentation
-  grunt.registerTask('doc', 'Generate documentation', function () {
+  grunt.registerMultiTask('docs', 'Generate documentation', function () {
     var done = this.async();
 
     var child = grunt.util.spawn({
       cmd: path.resolve('./node_modules/.bin/docco'),
       grunt: false,
-      args: ['README.md', 'js/angular-authentication.js']
+      args: this.filesSrc
     }, function (error, result, code) {
       grunt.log.ok('Generated documentation at ./docs/');
       done();
@@ -101,6 +106,8 @@ exports = module.exports = function (grunt) {
     child.stdout.pipe(process.stdout);
     child.stderr.pipe(process.stderr);
   });
+
+  grunt.registerTask('doc', ['docs']);
 
   // Bootstrap example
   grunt.registerTask('bootstrap-example', 'Bootstrap example', function () {
