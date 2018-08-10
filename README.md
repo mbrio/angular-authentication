@@ -27,7 +27,7 @@ For more information you can view the Node.js [stability index](http://nodejs.or
 
 ## Build
 
-To install all the necessary dependencies for the the example you'll need to run the following commands:
+To install all the necessary dependencies for the example you'll need to run the following commands:
 
 ```
 $ npm install -g grunt-cli && npm install && grunt bootstrap
